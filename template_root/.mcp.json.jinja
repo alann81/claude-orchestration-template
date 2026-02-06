@@ -1,0 +1,67 @@
+{
+  "mcpServers": {
+{% if has_local_llm %}
+    "ollama": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "ollama-mcp"
+      ],
+      "env": {
+        "OLLAMA_HOST": "{{ ollama_endpoint }}"
+      }
+    }{% if include_multi_model_overseer or has_knowledge_graph %},{% endif %}
+
+{% endif %}
+{% if include_multi_model_overseer %}
+    "gemini": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@rlabs-inc/gemini-mcp"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}",
+        "VERBOSE": "true"
+      }
+    },
+    "openai": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${PROJECT_ROOT}/mcp-servers/openai-mcp/dist/index.js"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
+    }{% if include_grok_agent %},
+    "grok": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${PROJECT_ROOT}/mcp-servers/grok-mcp/dist/index.js"
+      ],
+      "env": {
+        "GROK_API_KEY": "${GROK_API_KEY}"
+      }
+    }{% endif %}{% if has_knowledge_graph %},{% endif %}
+
+{% endif %}
+{% if has_knowledge_graph %}
+    "graph-code": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "graph-code-mcp"
+      ],
+      "env": {
+        "MEMGRAPH_HOST": "{{ memgraph_host }}",
+        "MEMGRAPH_PORT": "{{ memgraph_port }}",
+        "PROJECT_ROOT": "${PROJECT_ROOT}"
+      }
+    }
+{% endif %}
+  }
+}
