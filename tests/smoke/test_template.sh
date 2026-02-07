@@ -39,7 +39,9 @@ copier copy "$TEMPLATE_DIR" "$TEST_DIR" \
     --data include_devcontainer=false \
     --data include_pre_commit=true \
     --data enable_task_system=true \
-    --data enable_cost_tracking=true
+    --data enable_cost_tracking=true \
+    --data existing_project=false \
+    --data customize_agents=false
 
 [[ -f "$TEST_DIR/CLAUDE.md" ]] || { echo "FAIL: Project files not created"; exit 1; }
 echo "   OK: Project created"
@@ -54,6 +56,12 @@ required_files=(
     ".claude/agents/local-coder.md"
     ".claude/agents/code-sentinel.md"
     ".claude/agents/gemini-overseer.md"
+    ".claude/agents/debug.md"
+    ".claude/agents/doctor.md"
+    ".claude/agents/tester.md"
+    ".claude/agents/reviewer.md"
+    ".claude/agents/integration-check.md"
+    ".claude/agents/janitor.md"
     ".claude/hooks/pre-tool-use.sh"
     ".env.template"
     "scripts/bootstrap.sh"
@@ -79,6 +87,20 @@ else
     echo "FAIL: Project name not found in CLAUDE.md"
     exit 1
 fi
+
+# Test 3b: Verify agent templates rendered correctly
+echo "3b. Verifying agent template rendering..."
+jinja_agents=(debug doctor tester reviewer integration-check janitor)
+for agent in "${jinja_agents[@]}"; do
+    agent_file=".claude/agents/${agent}.md"
+
+    # Verify placeholder was substituted
+    if grep -q '{{ primary_coding_model }}' "$agent_file" 2>/dev/null; then
+        echo "FAIL: Unsubstituted variable in $agent_file"
+        exit 1
+    fi
+done
+echo "   OK: Agent templates rendered correctly"
 
 # Test 4: Settings JSON is valid
 echo "4. Validating settings.json..."
@@ -111,6 +133,31 @@ for d in "${dispatchers[@]}"; do
     [[ -f "$d" ]] || { echo "FAIL: Missing dispatcher: $d"; exit 1; }
 done
 echo "   OK: All dispatchers present"
+
+# Test 8: Scan for forbidden/leaked patterns
+echo "8. Scanning for forbidden patterns..."
+forbidden_patterns=(
+    "@clawdbot"
+    "\.clawdbot"
+    "CLAWDBOT_HOME"
+    "XAI_API_KEY"
+)
+
+for pattern in "${forbidden_patterns[@]}"; do
+    if grep -rE "$pattern" . --include="*.md" --include="*.sh" --include="*.json" 2>/dev/null | grep -v ".git" | grep -v ".copier-answers"; then
+        echo "FAIL: Forbidden pattern '$pattern' found in output"
+        exit 1
+    fi
+done
+echo "   OK: No forbidden patterns detected"
+
+# Test 9: Verify .env.template uses GROK_API_KEY not XAI_API_KEY
+echo "9. Checking .env.template key names..."
+if grep -q "XAI_API_KEY" .env.template 2>/dev/null; then
+    echo "FAIL: .env.template uses XAI_API_KEY (should be GROK_API_KEY)"
+    exit 1
+fi
+echo "   OK: Environment variable names correct"
 
 echo ""
 echo "=== All smoke tests passed! ==="

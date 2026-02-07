@@ -36,7 +36,11 @@ copier copy "$TEMPLATE_DIR" "$TEST_DIR" \
     --data include_devcontainer=false \
     --data include_pre_commit=false \
     --data enable_task_system=true \
-    --data enable_cost_tracking=true
+    --data enable_cost_tracking=true \
+    --data existing_project=false \
+    --data customize_agents=false \
+    --data include_grok_agent=false \
+    --data has_deployment_target=false
 
 cd "$TEST_DIR/update-test"
 echo "   OK: Project created"
@@ -82,7 +86,11 @@ copier copy "$TEMPLATE_DIR" "$TEST_DIR" \
     --data include_devcontainer=false \
     --data include_pre_commit=false \
     --data enable_task_system=true \
-    --data enable_cost_tracking=true
+    --data enable_cost_tracking=true \
+    --data existing_project=false \
+    --data customize_agents=false \
+    --data include_grok_agent=false \
+    --data has_deployment_target=false
 
 cd "$TEST_DIR/update-test"
 echo "   OK: Update completed"
