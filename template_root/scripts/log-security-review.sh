@@ -2,7 +2,7 @@
 # Log security review results for tracking code-sentinel audits
 # Usage: log-security-review.sh --commit HASH --result PASS|FAIL --reviewer AGENT_NAME
 
-LOG_DIR="$HOME/.clawdbot/logs"
+LOG_DIR="$HOME/.claude-project/logs"
 LOG_FILE="${LOG_DIR}/code-sentinel-reviews.log"
 COMMIT_HASH=""
 RESULT=""

@@ -28,7 +28,7 @@ Diagnosis is high-stakes work. Choose models appropriately, with fallbacks when 
 
 ```json
 {
-  "model": "qwen2.5-coder:32b",
+  "model": "{{ primary_coding_model }}",
   "messages": [
     {"role": "system", "content": "You are a session diagnostician. Analyze patterns and propose fixes."},
     {"role": "user", "content": "Session data: <paste data>. What anti-patterns do you see?"}
@@ -85,7 +85,7 @@ Check for these patterns:
 **Try Ollama first:**
 ```json
 {
-  "model": "qwen2.5-coder:32b",
+  "model": "{{ primary_coding_model }}",
   "messages": [
     {"role": "system", "content": "You are a session diagnostician."},
     {"role": "user", "content": "Session data: [data]. What anti-patterns?"}

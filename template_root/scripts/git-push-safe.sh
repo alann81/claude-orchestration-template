@@ -4,7 +4,7 @@
 #
 # Usage: ./scripts/git-push-safe.sh [git push arguments]
 #
-# This wrapper logs any use of --no-verify to $HOME/.clawdbot/logs/security-bypass.log
+# This wrapper logs any use of --no-verify to $HOME/.claude-project/logs/security-bypass.log
 # before executing the actual git push.
 #
 # To use as default push command, add to your shell config:
@@ -13,7 +13,7 @@
 # Or configure git alias:
 #   git config --global alias.pushsafe '!$HOME/your-project/scripts/git-push-safe.sh'
 
-LOG_DIR="$HOME/.clawdbot/logs"
+LOG_DIR="$HOME/.claude-project/logs"
 BYPASS_LOG="${LOG_DIR}/security-bypass.log"
 
 # Create log directory with secure permissions if it doesn't exist

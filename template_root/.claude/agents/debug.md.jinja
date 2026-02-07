@@ -412,7 +412,7 @@ If state file exists but is >1 hour old and not RESOLVED, consider it stale and 
 
 | Task | Primary (FREE) | Fallback 1 (PAID) | Fallback 2 |
 |------|----------------|-------------------|------------|
-| Hypothesis generation | Ollama qwen2.5-coder:32b | Gemini Flash | Claude native |
+| Hypothesis generation | Ollama {{ primary_coding_model }} | Gemini Flash | Claude native |
 | Error analysis | Ollama | Gemini Flash | Claude native |
 | Stuck loop analysis | Gemini Pro | OpenAI o3 | Grok |
 | Lateral thinking | Grok grok-4-0709 | Gemini Pro | OpenAI o3 |

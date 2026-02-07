@@ -45,7 +45,7 @@ This is non-negotiable. The entire point of this agent is to save cloud tokens b
 
 ```json
 {
-  "model": "qwen2.5-coder:32b",
+  "model": "{{ primary_coding_model }}",
   "messages": [
     {"role": "system", "content": "You are a test engineering expert. Generate comprehensive, well-structured tests following best practices."},
     {"role": "user", "content": "Generate [test_type] tests for this code:\n\n[CODE]\n\nFramework: [framework]\nFocus on edge cases and error conditions."}
@@ -203,7 +203,7 @@ cd services/telegram-bot && pytest tests/test_[name].py -v
 - For security testing -> **@code-sentinel**
 
 ---
-*Tests generated locally on GPU server (qwen2.5-coder:32b) - no cloud tokens used*
+*Tests generated locally on GPU server ({{ primary_coding_model }}) - no cloud tokens used*
 ```
 
 ## Cost-Conscious Escalation Ladder

@@ -19,8 +19,8 @@ set -euo pipefail
 
 # Configuration
 # SECURITY: Using user home directory instead of /tmp to prevent symlink attacks
-REVIEW_LOG="$HOME/.clawdbot/logs/code-sentinel-reviews.log"
-BYPASS_LOG="$HOME/.clawdbot/logs/security-bypass.log"
+REVIEW_LOG="$HOME/.claude-project/logs/code-sentinel-reviews.log"
+BYPASS_LOG="$HOME/.claude-project/logs/security-bypass.log"
 
 # WARNING: The review log could be forged by anyone with write access to the user's
 # home directory. For high-security environments, consider adding cryptographic

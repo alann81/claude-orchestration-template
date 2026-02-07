@@ -26,14 +26,14 @@ Before using `mcp__ollama__ollama_chat`, check if it's available:
 
 | Task | Primary (FREE) | Fallback (PAID) |
 |------|----------------|-----------------|
-| Planning & analysis | Ollama (qwen2.5-coder:32b) | Claude (your native reasoning) |
+| Planning & analysis | Ollama ({{ primary_coding_model }}) | Claude (your native reasoning) |
 | Multi-model escalation | Gemini + OpenAI + Grok | Any 2 of 3, or just Claude |
 
 ## How to Use Ollama (PREFERRED)
 
 ```json
 {
-  "model": "qwen2.5-coder:32b",
+  "model": "{{ primary_coding_model }}",
   "messages": [
     {"role": "system", "content": "You are a codebase cleanup expert. Analyze file usage and recommend safe deletions."},
     {"role": "user", "content": "Analyze these files for cleanup: [file list]"}

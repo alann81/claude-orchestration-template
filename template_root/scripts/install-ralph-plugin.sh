@@ -37,7 +37,7 @@ DESCRIPTION:
     Also updates .claude/settings.json to register the stop hook.
 
 SOURCE DISCOVERY (--local):
-    1. Uses CLAWDBOT_HOME environment variable if set
+    1. Uses PROJECT_HOME environment variable if set
     2. Otherwise searches parent directories for clawdbot-home
 
 EXAMPLES:
@@ -270,15 +270,15 @@ main() {
             local source_dir=""
 
             # Find source directory
-            if [[ -n "${CLAWDBOT_HOME:-}" ]] && [[ -d "$CLAWDBOT_HOME" ]]; then
-                source_dir="$CLAWDBOT_HOME"
+            if [[ -n "${PROJECT_HOME:-}" ]] && [[ -d "$PROJECT_HOME" ]]; then
+                source_dir="$PROJECT_HOME"
             elif $use_local; then
                 source_dir=$(find_source_dir) || true
             fi
 
             if [[ -z "$source_dir" ]]; then
                 echo -e "${RED}Error: Could not find source directory${NC}" >&2
-                echo "Set CLAWDBOT_HOME environment variable or run from within clawdbot-home" >&2
+                echo "Set PROJECT_HOME environment variable or run from within clawdbot-home" >&2
                 exit 1
             fi
 

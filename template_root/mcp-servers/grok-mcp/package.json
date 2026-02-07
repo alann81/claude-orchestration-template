@@ -1,5 +1,5 @@
 {
-  "name": "@clawdbot/grok-mcp",
+  "name": "grok-mcp",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",

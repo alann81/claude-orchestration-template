@@ -44,7 +44,7 @@ This is non-negotiable. The entire point of this agent is to save cloud tokens b
 
 ```json
 {
-  "model": "qwen2.5-coder:32b",
+  "model": "{{ primary_coding_model }}",
   "messages": [
     {"role": "system", "content": "You are a senior code reviewer. Analyze code for quality, patterns, and issues. Be thorough but constructive."},
     {"role": "user", "content": "Review this code:\n\n[CODE]\n\nFocus on: [FOCUS_AREAS]"}
@@ -122,7 +122,7 @@ This is non-negotiable. The entire point of this agent is to save cloud tokens b
 - [ ] Code changes needed -> **@local-coder**
 
 ---
-*Reviewed locally on GPU server (qwen2.5-coder:32b) - no cloud tokens used*
+*Reviewed locally on GPU server ({{ primary_coding_model }}) - no cloud tokens used*
 ```
 
 ## Cost-Conscious Escalation Ladder
