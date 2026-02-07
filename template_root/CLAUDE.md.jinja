@@ -70,6 +70,7 @@ At the start of every session:
 {% if include_janitor %}
 | @janitor | Directory/codebase cleanup: Phase-based cleanup with dry-run | FREE{% if has_local_llm %} (Ollama){% endif %} -> PAID escalation |
 {% endif %}
+| @doctor | Session health diagnostics: Stuck loops, cost waste, self-improvements | FREE{% if has_local_llm %} (Ollama){% endif %} -> PAID escalation |
 | @code-sentinel | Multi-model security audit | PAID (security review) |
 {% if include_multi_model_overseer %}
 | @overseer | Multi-model architecture review: Gemini + OpenAI{% if include_grok_agent %} + Grok{% endif %} + Opus synthesis | PAID (high-stakes architecture) |
@@ -80,7 +81,9 @@ At the start of every session:
 {% if has_local_llm %}
 | @local-git | Commit messages, PR summaries, branch names | FREE (Ollama) |
 | @reviewer | Code review: Quality, security basics, performance (READ-ONLY) | FREE (Ollama) -> PAID escalation |
+| @local-reviewer | Code style review: DRY, naming, patterns, complexity (READ-ONLY, not security) | FREE (Ollama) |
 | @tester | Test creation: Unit/integration/e2e tests, coverage analysis | FREE (Ollama) -> PAID escalation |
+| @local-scribe | Documentation generation: Docstrings, JSDoc, README, API docs | FREE (Ollama) |
 {% endif %}
 
 {% if has_local_llm %}
