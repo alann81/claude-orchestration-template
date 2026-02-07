@@ -50,6 +50,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- `/whats-next` slash command for secure context handoff documents
+  - Creates comprehensive handoff docs for continuing work in fresh sessions
+  - Security-hardened: only Read/Write tools, no secrets, file overwrite protection
+
 ### Planned for 0.2.0
 - Bidirectional sync support (`claude-template sync-up` CLI)
 - Docker Compose for full stack (includes Memgraph)
