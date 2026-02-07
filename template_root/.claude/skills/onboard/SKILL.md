@@ -112,7 +112,7 @@ Options:
 If yes, ask for each key:
 - GEMINI_API_KEY (aistudio.google.com)
 - OPENAI_API_KEY (platform.openai.com)
-- XAI_API_KEY (console.x.ai) - optional
+- GROK_API_KEY (console.x.ai) - optional
 
 ### Phase 4: Verify Configuration
 
