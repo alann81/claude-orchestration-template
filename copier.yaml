@@ -28,6 +28,16 @@ admin_username:
   default: "{{ _copier_conf.user }}"
 
 # =============================================================================
+# Existing Project Detection
+# =============================================================================
+# Skip infrastructure questions for projects with existing .env files
+
+existing_project:
+  type: bool
+  default: false
+  help: "Updating an existing project with a .env file? (Yes = skip infrastructure config)"
+
+# =============================================================================
 # Infrastructure Configuration
 # =============================================================================
 
@@ -35,78 +45,82 @@ has_local_llm:
   type: bool
   default: true
   help: "Do you have a local LLM server (Ollama, vLLM)?"
+  when: "{{ not existing_project }}"
 
 ollama_endpoint:
   type: str
   default: "http://localhost:11434"
   help: "Ollama API endpoint URL"
-  when: "{{ has_local_llm }}"
+  when: "{{ not existing_project and has_local_llm }}"
 
 primary_coding_model:
   type: str
   default: "qwen2.5-coder:32b"
   help: "Default model for coding tasks"
-  when: "{{ has_local_llm }}"
+  when: "{{ not existing_project and has_local_llm }}"
 
 has_guardrails_proxy:
   type: bool
   default: false
   help: "Do you have a guardrails proxy for LLM requests?"
+  when: "{{ not existing_project }}"
 
 guardrails_endpoint:
   type: str
   default: "http://localhost:8080"
   help: "Guardrails proxy endpoint"
-  when: "{{ has_guardrails_proxy }}"
+  when: "{{ not existing_project and has_guardrails_proxy }}"
 
 has_knowledge_graph:
   type: bool
   default: false
   help: "Do you have Memgraph/Neo4j for code knowledge graph?"
+  when: "{{ not existing_project }}"
 
 memgraph_host:
   type: str
   default: "localhost"
   help: "Memgraph/Neo4j host"
-  when: "{{ has_knowledge_graph }}"
+  when: "{{ not existing_project and has_knowledge_graph }}"
 
 memgraph_port:
   type: int
   default: 7687
   help: "Memgraph/Neo4j Bolt port"
-  when: "{{ has_knowledge_graph }}"
+  when: "{{ not existing_project and has_knowledge_graph }}"
 
 has_deployment_target:
   type: bool
   default: false
   help: "Do you have a deployment target (hypervisor/server) for pushing builds?"
+  when: "{{ not existing_project }}"
 
 deploy_host:
   type: str
   default: "localhost"
   help: "Deployment server hostname/IP (for scp/ssh)"
-  when: "{{ has_deployment_target }}"
+  when: "{{ not existing_project and has_deployment_target }}"
   validator: "{% if not (deploy_host | regex_search('^[a-zA-Z0-9.-]+$')) %}Invalid hostname: only alphanumeric, dots, hyphens allowed{% endif %}"
 
 deploy_user:
   type: str
   default: "deploy"
   help: "SSH user for deployment (avoid root if possible)"
-  when: "{{ has_deployment_target }}"
+  when: "{{ not existing_project and has_deployment_target }}"
   validator: "{% if not (deploy_user | regex_search('^[a-zA-Z0-9_-]+$')) %}Invalid username: only alphanumeric, underscores, hyphens allowed{% endif %}"
 
 deploy_container_id:
   type: str
   default: "101"
   help: "Container ID for Proxmox pct exec (if using LXC)"
-  when: "{{ has_deployment_target }}"
+  when: "{{ not existing_project and has_deployment_target }}"
   validator: "{% if not (deploy_container_id | regex_search('^[0-9]+$')) %}Container ID must be numeric{% endif %}"
 
 health_check_url:
   type: str
   default: "http://localhost:8081/health"
   help: "Health check endpoint URL after deployment"
-  when: "{{ has_deployment_target }}"
+  when: "{{ not existing_project and has_deployment_target }}"
   validator: "{% if not (health_check_url | regex_search('^https?://[a-zA-Z0-9._:/-]+$')) %}Invalid URL: must be http/https with valid characters{% endif %}"
 
 # =============================================================================
