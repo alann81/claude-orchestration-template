@@ -26,7 +26,10 @@ Thank you for considering contributing to this template!
 1. **Fork the repository**
 2. **Create a feature branch**: `git checkout -b feature/my-improvement`
 3. **Make your changes**
-4. **Test thoroughly**:
+4. **Update CHANGELOG.md**: Add your changes under `[Unreleased]` section
+   - Use categories: `Added`, `Changed`, `Fixed`, `Removed`, `Security`
+   - Be concise but descriptive
+5. **Test thoroughly**:
    ```bash
    # Run smoke tests
    ./tests/smoke/test_template.sh
