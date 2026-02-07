@@ -73,6 +73,35 @@ find scripts -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
 find .claude/hooks -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
 echo "Made scripts executable"
 
+# Build MCP servers (TypeScript -> JavaScript)
+echo ""
+echo "Building MCP servers..."
+
+# Function to build an MCP server
+build_mcp_server() {
+    local server_dir="$1"
+    local server_name="$2"
+
+    if [[ -f "$server_dir/package.json" ]]; then
+        echo "  Building $server_name..."
+        (
+            cd "$server_dir"
+            npm install --silent 2>/dev/null
+            npx tsc 2>/dev/null
+        )
+
+        if [[ -f "$server_dir/dist/index.js" ]]; then
+            echo "    ✓ $server_name built successfully"
+        else
+            echo "    ⚠ $server_name build failed (API key may be missing - can retry later)"
+        fi
+    fi
+}
+
+# Build each MCP server independently (failures are non-fatal)
+build_mcp_server "mcp-servers/openai-mcp" "openai-mcp"
+build_mcp_server "mcp-servers/grok-mcp" "grok-mcp"
+
 # Install pre-commit hooks
 {% if include_pre_commit %}
 if command -v pre-commit &> /dev/null; then
