@@ -269,6 +269,43 @@ git add . && git commit -m "checkpoint: saving progress"
 claude  # Fresh session
 ```
 
+### Context Handoff with /whats-next
+
+When your context window is getting full (long session, many file reads, complex debugging), use `/whats-next` to create a handoff document before starting a fresh session.
+
+**When to use:**
+- You've been in the same session for a long time
+- Claude is getting slower or confused about state
+- You're mid-task but need a fresh context
+- You want to continue tomorrow where you left off
+
+**How it works:**
+```bash
+# In your current Claude session
+/whats-next
+```
+
+This creates `whats-next.md` in your working directory with:
+- **Original Task**: What you set out to do
+- **Work Completed**: Everything accomplished (files, changes, findings)
+- **Work Remaining**: Specific next steps with file paths
+- **Attempted Approaches**: What didn't work (avoid repeating dead ends)
+- **Critical Context**: Key decisions, gotchas, environment details
+- **Current State**: Where you are in the workflow
+
+**Continuing in a fresh session:**
+```bash
+# Start new Claude session
+claude
+
+# First message:
+"Read whats-next.md and continue where we left off"
+```
+
+The fresh Claude instance picks up with full context and zero accumulated confusion.
+
+**Security Note:** The `/whats-next` command automatically redacts secrets and only uses Read/Write tools (no Bash/WebFetch).
+
 ---
 
 ## Cost Monitoring
@@ -306,4 +343,5 @@ cat /tmp/model-calls.log
 | Security review | "@code-sentinel, review [file]" |
 | Architecture decision | "@overseer, should we [A] or [B]?" |
 | Commit changes | "Commit with message about [what changed]" |
+| Save context for later | "/whats-next" |
 | End session | "Task complete, let's wrap up" |

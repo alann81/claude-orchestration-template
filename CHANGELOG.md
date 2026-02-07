@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `/whats-next` slash command for secure context handoff documents
   - Creates comprehensive handoff docs for continuing work in fresh sessions
   - Security-hardened: only Read/Write tools, no secrets, file overwrite protection
+  - Documentation in `docs/WORKFLOW.md` explaining when and how to use it
 
 ### Planned for 0.2.0
 - Bidirectional sync support (`claude-template sync-up` CLI)
